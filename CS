@@ -1,0 +1,241 @@
+import datetime
+import random
+
+# --------- Data Storage ---------
+patients = {}
+doctors = {}
+staffs = {}
+
+# --------- Helper Function ---------
+def import_random_name():
+    names = ["John", "Emma", "Alex", "Olivia", "Liam", "Sophia"]
+    return random.choice(names)
+
+# --------- Patient Management ---------
+def add_patient():
+    pid = input("Enter Patient ID: ").strip()
+    if pid in patients:
+        print("Patient ID already exists.")
+        return
+    name = import_random_name()
+    history = input("Enter Medical History: ")
+    weight = input("Enter Weight (kg): ")
+    height = input("Enter Height (cm): ")
+    last_visit = input("Enter Last Visit Date (YYYY-MM-DD): ")
+    patients[pid] = {
+        "Name": name,
+        "History": history,
+        "Weight": weight,
+        "Height": height,
+        "Last Visit": last_visit
+    }
+    print(f"Patient '{name}' added successfully.")
+
+def modify_patient():
+    pid = input("Enter Patient ID to modify: ").strip()
+    if pid not in patients:
+        print("Patient not found.")
+        return
+    print("Current Details:", patients[pid])
+    weight = input("Enter new Weight (kg): ")
+    height = input("Enter new Height (cm): ")
+    last_visit = input("Enter new Last Visit Date (YYYY-MM-DD): ")
+    patients[pid].update({
+        "Weight": weight,
+        "Height": height,
+        "Last Visit": last_visit
+    })
+    print("Patient details updated successfully.")
+
+def search_patient():
+    pid = input("Enter Patient ID to search: ").strip()
+    if pid in patients:
+        print("Patient Details:", patients[pid])
+    else:
+        print("Patient not found.")
+
+def delete_patient():
+    pid = input("Enter Patient ID to delete: ").strip()
+    if pid not in patients:
+        print("Patient not found.")
+        return
+    last_visit = datetime.datetime.strptime(patients[pid]["Last Visit"], "%Y-%m-%d").date()
+    if (datetime.date.today() - last_visit).days > 365:
+        del patients[pid]
+        print("Patient deleted (inactive over 12 months).")
+    else:
+        print("Patient is active. Cannot delete.")
+
+# --------- Doctor Management ---------
+def add_doctor():
+    did = input("Enter Doctor ID: ").strip()
+    if did in doctors:
+        print("Doctor ID already exists.")
+        return
+    name = input("Enter Doctor Name: ")
+    experience = input("Enter Experience (years): ")
+    join_time = input("Enter Joining Time (HH:MM): ")
+    leave_time = input("Enter Leaving Time (HH:MM): ")
+    doctors[did] = {
+        "Name": name,
+        "Experience": experience,
+        "Joining Time": join_time,
+        "Leaving Time": leave_time
+    }
+    print(f"Doctor '{name}' added successfully.")
+
+def modify_doctor():
+    did = input("Enter Doctor ID to modify: ").strip()
+    if did not in doctors:
+        print("Doctor not found.")
+        return
+    print("Current Details:", doctors[did])
+    experience = input("Enter new Experience (years): ")
+    join_time = input("Enter new Joining Time (HH:MM): ")
+    leave_time = input("Enter new Leaving Time (HH:MM): ")
+    doctors[did].update({
+        "Experience": experience,
+        "Joining Time": join_time,
+        "Leaving Time": leave_time
+    })
+    print("Doctor details updated successfully.")
+
+def search_doctor():
+    did = input("Enter Doctor ID to search: ").strip()
+    if did in doctors:
+        print("Doctor Details:", doctors[did])
+    else:
+        print("Doctor not found.")
+
+def delete_doctor():
+    did = input("Enter Doctor ID to delete: ").strip()
+    if did in doctors:
+        del doctors[did]
+        print("Doctor deleted successfully.")
+    else:
+        print("Doctor not found.")
+
+# --------- Staff Management ---------
+def add_staff():
+    sid = input("Enter Staff ID: ").strip()
+    if sid in staffs:
+        print("Staff ID already exists.")
+        return
+    name = input("Enter Staff Name: ")
+    position = input("Enter Position (Nurse, Receptionist, etc.): ")
+    shift = input("Enter Shift (Morning/Evening/Night): ")
+    joining_date = input("Enter Joining Date (YYYY-MM-DD): ")
+    staffs[sid] = {
+        "Name": name,
+        "Position": position,
+        "Shift": shift,
+        "Joining Date": joining_date
+    }
+    print(f"Staff '{name}' added successfully.")
+
+def modify_staff():
+    sid = input("Enter Staff ID to modify: ").strip()
+    if sid not in staffs:
+        print("Staff not found.")
+        return
+    print("Current Details:", staffs[sid])
+    position = input("Enter new Position: ")
+    shift = input("Enter new Shift: ")
+    joining_date = input("Enter new Joining Date (YYYY-MM-DD): ")
+    staffs[sid].update({
+        "Position": position,
+        "Shift": shift,
+        "Joining Date": joining_date
+    })
+    print("Staff details updated successfully.")
+
+def search_staff():
+    sid = input("Enter Staff ID to search: ").strip()
+    if sid in staffs:
+        print("Staff Details:", staffs[sid])
+    else:
+        print("Staff not found.")
+
+def delete_staff():
+    sid = input("Enter Staff ID to delete: ").strip()
+    if sid in staffs:
+        del staffs[sid]
+        print("Staff deleted successfully.")
+    else:
+        print("Staff not found.")
+
+# --------- Menus ---------
+def patient_menu():
+    while True:
+        print("\n--- Patient Management ---")
+        print("1. Add Patient\n2. Modify Patient\n3. Search Patient\n4. Delete Patient\n5. Back")
+        choice = input("Enter choice: ").strip()
+        if choice == '1':
+            add_patient()
+        elif choice == '2':
+            modify_patient()
+        elif choice == '3':
+            search_patient()
+        elif choice == '4':
+            delete_patient()
+        elif choice == '5':
+            break
+        else:
+            print("Invalid input. Try again.")
+
+def doctor_menu():
+    while True:
+        print("\n--- Doctor Management ---")
+        print("1. Add Doctor\n2. Modify Doctor\n3. Search Doctor\n4. Delete Doctor\n5. Back")
+        choice = input("Enter choice: ").strip()
+        if choice == '1':
+            add_doctor()
+        elif choice == '2':
+            modify_doctor()
+        elif choice == '3':
+            search_doctor()
+        elif choice == '4':
+            delete_doctor()
+        elif choice == '5':
+            break
+        else:
+            print("Invalid input. Try again.")
+
+def staff_menu():
+    while True:
+        print("\n--- Staff Management ---")
+        print("1. Add Staff\n2. Modify Staff\n3. Search Staff\n4. Delete Staff\n5. Back")
+        choice = input("Enter choice: ").strip()
+        if choice == '1':
+            add_staff()
+        elif choice == '2':
+            modify_staff()
+        elif choice == '3':
+            search_staff()
+        elif choice == '4':
+            delete_staff()
+        elif choice == '5':
+            break
+        else:
+            print("Invalid input. Try again.")
+
+def main_menu():
+    while True:
+        print("\n====== Hospital Management System ======")
+        print("1. Patient Management\n2. Doctor Management\n3. Staff Management\n4. Exit")
+        choice = input("Enter choice: ").strip()
+        if choice == '1':
+            patient_menu()
+        elif choice == '2':
+            doctor_menu()
+        elif choice == '3':
+            staff_menu()
+        elif choice == '4':
+            print("Exiting system. Goodbye!")
+            break
+        else:
+            print("Invalid input. Try again.")
+
+# --------- Main Entry Point ---------
+if __name__ == "__main__":
+    main_menu()
